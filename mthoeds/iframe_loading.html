@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        #controls {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        button {
+            padding: 8px 16px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        #blobUrl {
+            font-size: 12px;
+            margin-top: 5px;
+            word-break: break-all;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <button onclick="createBlobUrl()">Generate Blob Website</button>
+        <div id="blobUrl"></div>
+    </div>
+    <iframe id="preview"></iframe>
+
+    <script>
+        function createBlobUrl() {
+            const websiteContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body { /* ... (styles remain the same) ... */ }
+                    </style>
+                </head>
+                <body>
+                    <nav> <div class="nav-content"> <a href="#">Home</a> <a href="#">About</a> <a href="#">Contact</a> <a href="#">Services</a> </div> </nav>
+                    <div class="container">
+                        <div class="content">
+                            <h1>Welcome to Full Page Blob Website</h1>
+                            <p class="timestamp">Generated at: ${new Date().toLocaleString()}</p>
+                            <p>This is a full-page website served through a blob URL. The content takes up the entire viewport while maintaining the generation controls in a floating panel.</p>
+                            <p>Each time you generate it, you'll get a new unique blob URL. The URL is temporary and valid only until you close this page or manually revoke it.</p>
+                            <h2>Features</h2>
+                            <ul> <li>Full page layout</li> <li>Responsive design</li> <li>Modern gradient background</li> <li>Clean navigation bar</li> </ul>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob([websiteContent], { type: 'text/html' });
+            const blobUrl = URL.createObjectURL(blob);
+
+            document.getElementById('blobUrl').textContent = `Blob URL: ${blobUrl}`;
+            document.getElementById('preview').src = blobUrl;
+
+            // Revoke the *previous* blob URL (if any)
+            const previousBlobUrl = document.getElementById('preview').src;
+            if (previousBlobUrl && previousBlobUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(previousBlobUrl);
+                console.log('Previous Blob URL revoked');
+            }
+
+            // Consider revoking the *current* blob URL after a longer delay, if needed
+            // setTimeout(() => { URL.revokeObjectURL(blobUrl); console.log('Blob URL revoked'); }, 30000); // Example: Revoke after 30 seconds
+        }
+
+        createBlobUrl(); // Generate initial blob URL on page load
+    </script>
+</body>
+</html>

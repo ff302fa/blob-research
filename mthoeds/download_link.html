@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Download Blob Website</title>
+<style>
+  body { font-family: sans-serif; }
+</style>
+</head>
+<body>
+
+<h1>Main Website</h1>
+
+<button onclick="downloadBlobWebsite()">Download Blob Website</button>
+
+<script>
+  function downloadBlobWebsite() {
+    const websiteContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Blob Website</title>
+        <style>
+          body { background-color: #f0f0f0; text-align: center; font-family: sans-serif; }
+          h1 { color: #333; }
+        </style>
+      </head>
+      <body>
+        <h1>Welcome to the Blob Website!</h1>
+        <p>This content is loaded from a data URL.</p>
+      </body>
+      </html>
+    `;
+
+    const blob = new Blob([websiteContent], { type: 'text/html' });
+    const blobUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement('a'); // Create a temporary link element
+    a.href = blobUrl;
+    a.download = 'blob_website.html'; // Set the filename
+    a.style.display = 'none'; // Hide the link
+    document.body.appendChild(a); // Add the link to the DOM
+    a.click(); // Simulate a click to trigger the download
+    document.body.removeChild(a); // Remove the link from the DOM
+
+    // Optional: Revoke the URL after a delay (if needed)
+    // setTimeout(() => { URL.revokeObjectURL(blobUrl); }, 30000); // Revoke after 30 seconds
+  }
+</script>
+
+</body>
+</html>

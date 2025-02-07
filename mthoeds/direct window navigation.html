@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blob URL Navigation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Blob URL Navigation Examples</h1>
+    
+    <div class="button-container">
+        <button onclick="loadSimplePage()">Load Simple Page</button>
+        <button onclick="loadStyledPage()">Load Styled Page</button>
+        <button onclick="loadInteractivePage()">Load Interactive Page</button>
+    </div>
+
+    <script>
+        // Example 1: Simple page
+        function loadSimplePage() {
+            const content = `
+                <!DOCTYPE html>
+                <html>
+                    <head><title>Simple Blob Page</title></head>
+                    <body>
+                        <h1>Simple Blob Page</h1>
+                        <p>This is a basic page loaded via blob URL</p>
+                        <a href="javascript:history.back()">Go Back</a>
+                    </body>
+                </html>
+            `;
+            navigateToBlob(content);
+        }
+
+        // Example 2: Styled page
+        function loadStyledPage() {
+            const content = `
+                <!DOCTYPE html>
+                <html>
+                    <head>
+                        <title>Styled Blob Page</title>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                max-width: 800px;
+                                margin: 40px auto;
+                                padding: 20px;
+                                background: #f0f0f0;
+                            }
+                            .container {
+                                background: white;
+                                padding: 20px;
+                                border-radius: 8px;
+                                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                            }
+                            .back-button {
+                                display: inline-block;
+                                padding: 10px 20px;
+                                background: #007bff;
+                                color: white;
+                                text-decoration: none;
+                                border-radius: 4px;
+                                margin-top: 20px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <h1>Styled Blob Page</h1>
+                            <p>This page includes CSS styling and better layout</p>
+                            <p>Generated at: ${new Date().toLocaleString()}</p>
+                            <a href="javascript:history.back()" class="back-button">Go Back</a>
+                        </div>
+                    </body>
+                </html>
+            `;
+            navigateToBlob(content);
+        }
+
+        // Example 3: Interactive page
+        function loadInteractivePage() {
+            const content = `
+                <!DOCTYPE html>
+                <html>
+                    <head>
+                        <title>Interactive Blob Page</title>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                max-width: 800px;
+                                margin: 40px auto;
+                                padding: 20px;
+                                background: #f0f0f0;
+                            }
+                            .container {
+                                background: white;
+                                padding: 20px;
+                                border-radius: 8px;
+                                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                            }
+                            .counter {
+                                font-size: 24px;
+                                margin: 20px 0;
+                            }
+                            button {
+                                padding: 10px 20px;
+                                margin: 5px;
+                                cursor: pointer;
+                            }
+                            .back-button {
+                                display: inline-block;
+                                padding: 10px 20px;
+                                background: #007bff;
+                                color: white;
+                                text-decoration: none;
+                                border-radius: 4px;
+                                margin-top: 20px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <h1>Interactive Blob Page</h1>
+                            <p>This page includes JavaScript functionality</p>
+                            <div class="counter">Count: <span id="count">0</span></div>
+                            <button onclick="document.getElementById('count').textContent++">Increment</button>
+                            <button onclick="document.getElementById('count').textContent--">Decrement</button>
+                            <br>
+                            <a href="javascript:history.back()" class="back-button">Go Back</a>
+                        </div>
+                    </body>
+                </html>
+            `;
+            navigateToBlob(content);
+        }
+
+        // Helper function to create and navigate to blob URL
+        function navigateToBlob(content) {
+            // Create blob from content
+            const blob = new Blob([content], { type: 'text/html' });
+            
+            // Create URL for the blob
+            const blobUrl = URL.createObjectURL(blob);
+            
+            // Navigate to the blob URL
+            window.location.href = blobUrl;
+            
+            // Optional: Clean up the blob URL after navigation
+            // Note: This might not execute due to navigation
+            setTimeout(() => {
+                URL.revokeObjectURL(blobUrl);
+            }, 0);
+        }
+    </script>
+</body>
+</html>

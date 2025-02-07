@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Full Page Blob Redirect</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: Arial, sans-serif;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <button onclick="redirectToBlob()">Load Full Page Blob Website</button>
+
+    <script>
+        function redirectToBlob() {
+            const content = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Full Page Blob Website</title>
+                    <style>
+                        body, html {
+                            margin: 0;
+                            padding: 0;
+                            font-family: Arial, sans-serif;
+                            min-height: 100vh;
+                            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                        }
+                        
+                        nav {
+                            background: white;
+                            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                            position: fixed;
+                            width: 100%;
+                            top: 0;
+                            z-index: 1000;
+                        }
+                        
+                        .nav-content {
+                            max-width: 1200px;
+                            margin: 0 auto;
+                            padding: 15px 20px;
+                        }
+                        
+                        nav a {
+                            color: #333;
+                            text-decoration: none;
+                            margin-right: 20px;
+                            font-weight: 500;
+                        }
+                        
+                        .container {
+                            max-width: 1200px;
+                            margin: 80px auto 20px;
+                            padding: 20px;
+                        }
+                        
+                        .content {
+                            background: white;
+                            padding: 40px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        }
+                        
+                        .back-button {
+                            display: inline-block;
+                            padding: 10px 20px;
+                            background: #4CAF50;
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 4px;
+                            margin-top: 20px;
+                        }
+                        
+                        .timestamp {
+                            color: #666;
+                            font-size: 0.9em;
+                            margin-bottom: 20px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <nav>
+                        <div class="nav-content">
+                            <a href="#">Home</a>
+                            <a href="#">About</a>
+                            <a href="#">Services</a>
+                            <a href="#">Contact</a>
+                        </div>
+                    </nav>
+                    
+                    <div class="container">
+                        <div class="content">
+                            <h1>Full Page Blob URL Website</h1>
+                            <p class="timestamp">Generated at: ${new Date().toLocaleString()}</p>
+                            
+                            <h2>About This Page</h2>
+                            <p>This is a full-page website being served through a blob URL. Check your browser's address bar - you'll see it starts with "blob:"</p>
+                            
+                            <h2>What's a Blob URL?</h2>
+                            <p>A Blob URL is a URL scheme that allows you to create URLs for data stored in memory. It's commonly used for:</p>
+                            <ul>
+                                <li>Displaying dynamic content</li>
+                                <li>Handling file downloads</li>
+                                <li>Creating temporary resources</li>
+                            </ul>
+                            
+                            <h2>Features of This Page</h2>
+                            <ul>
+                                <li>Full-page responsive layout</li>
+                                <li>Fixed navigation bar</li>
+                                <li>Modern design with gradient background</li>
+                                <li>Proper content structure</li>
+                            </ul>
+                            
+                            <a href="javascript:history.back()" class="back-button">← Go Back</a>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob([content], { type: 'text/html' });
+            const blobUrl = URL.createObjectURL(blob);
+            
+            // Redirect the main window to the blob URL
+            window.location.href = blobUrl;
+        }
+    </script>
+</body>
+</html>

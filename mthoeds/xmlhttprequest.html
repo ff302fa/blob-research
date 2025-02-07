@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Open Blob Website (XMLHttpRequest)</title>
+<style>
+  body { font-family: sans-serif; }
+</style>
+</head>
+<body>
+
+<h1>Main Website</h1>
+
+<button onclick="openBlobInNewWindow()">Open Blob Website</button>
+
+<script>
+  function openBlobInNewWindow() {
+    const websiteContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Blob Website</title>
+        <style>
+          body { background-color: #f0f0f0; text-align: center; font-family: sans-serif; }
+          h1 { color: #333; }
+        </style>
+      </head>
+      <body>
+        <h1>Welcome to the Blob Website!</h1>
+        <p>This content is loaded from a data URL.</p>
+      </body>
+      </html>
+    `;
+
+    const blob = new Blob([websiteContent], { type: 'text/html' });
+    const blobUrl = URL.createObjectURL(blob);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', blobUrl, true);  // Open a GET request
+    // Do NOT set xhr.responseType = 'blob';
+
+    xhr.onload = function() {
+      if (this.status === 200) {
+        window.open(blobUrl, '_blank'); // Open the blob URL in a new window/tab.
+      } else {
+        console.error("Error loading blob:", this.status, this.statusText);
+      }
+    };
+
+    xhr.onerror = function() {
+      console.error("Network error loading blob");
+    };
+
+    xhr.send();
+  }
+</script>
+
+</body>
+</html>
