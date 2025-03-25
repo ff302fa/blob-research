@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blob URL Generator</title>
+</head>
+<body>
+    <button onclick="redirectToBlob()">Load Blob Website</button>
+
+    <script>
+        function redirectToBlob() {
+            const content = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Blob Website</title>
+                    <style>
+                        body { 
+                            font-family: Arial; 
+                            max-width: 800px; 
+                            margin: 40px auto; 
+                            padding: 20px;
+                            line-height: 1.6;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>This is a Blob URL Website</h1>
+                    <p>Check your address bar - it should start with "blob:"</p>
+                    <p>Generated at: ${new Date().toLocaleString()}</p>
+                    <p><a href="javascript:history.back()">Go Back</a></p>
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob([content], { type: 'text/html' });
+            const blobUrl = URL.createObjectURL(blob);
+            
+            // Redirect the main window to the blob URL
+            window.location.href = blobUrl;
+        }
+    </script>
+</body>
+</html>
